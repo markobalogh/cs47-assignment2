@@ -1,7 +1,14 @@
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Themes } from './assets/Themes';
+import NavBar from './components/NavBar';
+import ProfileImage from './components/ProfileImage';
+import HotTake from './components/HotTake';
+import TabBar from './components/TabBar';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { palette } from './assets/Themes/palette';
+import themes from './assets/Themes/themes';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -16,28 +23,42 @@ export default function App() {
   /* insert your code here */
 
   return (
-    <View style={styles.container}>
-      <Text
-        style={{
-          fontFamily: 'Sydney', // test to see if the font is loaded, feel free to remove this
-        }}>
-        Open up App.js to start working on your app!
-      </Text>
-      <Text
-        style={{
-          fontFamily: 'Sydney-Bold', // test to see if the font is loaded, feel free to remove this
-        }}>
-        ~Good luck~
-      </Text>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea} edges={['top','left','right']}>
+        <View style={styles.container}>
+          <NavBar></NavBar>
+          <View style={styles.profileContainer}>
+            <ProfileImage styles={styles.profileImage}></ProfileImage>
+            <HotTake></HotTake>
+          </View>
+          <TabBar></TabBar>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: themes.light.bg,
+    flex:1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: themes.light.bg,
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+    overflow: 'hidden'
   },
+  profileContainer: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent:'flex-start'
+  },
+  profileImage: {
+    shadowColor: themes.light.shadows.shadowColor,
+    shadowRadius: themes.light.shadows.shadowRadius,
+    shadowOffset: themes.light.shadows.shadowOffset,
+    shadowOpacity: themes.light.shadows.shadowOpacity,
+  }
 });
